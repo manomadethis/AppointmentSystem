@@ -60,7 +60,7 @@ public class LoginSystem implements ActionListener {
         registerButton = new JButton("Register");
 
         panel.setLayout(null);
-        panel.setPreferredSize(new Dimension(300, 200));
+        panel.setPreferredSize(new Dimension(300, 600));
 
         usernameLabel.setBounds(50, 30, 75, 25);
         passwordLabel.setBounds(50, 70, 75, 25);
