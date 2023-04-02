@@ -69,5 +69,5 @@ public class RemoveAppointmentDialog extends JDialog {
             JOptionPane.showMessageDialog(parent, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
 }

@@ -19,19 +19,19 @@ public class Main {
          // Set System L&F
          UIManager.setLookAndFeel(
             UIManager.getSystemLookAndFeelClassName());
-     }
-     catch (UnsupportedLookAndFeelException e) {
-        // handle exception
-     }
-     catch (ClassNotFoundException e) {
-        // handle exception
-     }
-     catch (InstantiationException e) {
-        // handle exception
-     }
-     catch (IllegalAccessException e) {
-        // handle exception
-     }
+   }
+   catch (UnsupportedLookAndFeelException e) {
+      // handle exception
+   }
+   catch (ClassNotFoundException e) {
+      // handle exception
+   }
+   catch (InstantiationException e) {
+      // handle exception
+   }
+   catch (IllegalAccessException e) {
+      // handle exception
+   }
 
       /* Create and display the form */
       java.awt.EventQueue.invokeLater(new Runnable() {

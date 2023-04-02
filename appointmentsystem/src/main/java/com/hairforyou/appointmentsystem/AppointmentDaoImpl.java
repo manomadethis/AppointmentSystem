@@ -26,12 +26,12 @@ public class AppointmentDaoImpl implements AppointmentDao {
     private void createTableIfNotExists() throws SQLException {
         Statement stmt = conn.createStatement();
         String sql = "CREATE TABLE IF NOT EXISTS appointments (" +
-                     "id INTEGER PRIMARY KEY," +
-                     "name TEXT," +
-                     "number TEXT," +
-                     "address TEXT," +
-                     "date TEXT," +
-                     "time TEXT)";
+                    "id INTEGER PRIMARY KEY," +
+                    "name TEXT," +
+                    "number TEXT," +
+                    "address TEXT," +
+                    "date TEXT," +
+                    "time TEXT)";
         stmt.executeUpdate(sql);
         stmt.close();
     }
