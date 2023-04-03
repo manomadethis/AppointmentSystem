@@ -94,7 +94,7 @@ public class AppointmentGUI extends JFrame {
                 ((AppointmentTableModel) appointmentTable.getModel()).updateAppointment(updatedAppointment, selectedRow);
             }
         });
-        
+
         // Action Listener for Remove Appointment
         removeButton.addActionListener(e -> {
             int selectedRow = appointmentTable.getSelectedRow();
@@ -109,8 +109,8 @@ public class AppointmentGUI extends JFrame {
                 }
             }
         });
-        
 
+    setVisible(true);
 
     }
 }

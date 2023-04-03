@@ -1,13 +1,23 @@
 package com.hairforyou.appointmentsystem;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
 /**
  *
  * @author lambe
  */
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class LoginForm extends javax.swing.JFrame {
 
@@ -21,8 +31,20 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     // Data storage
-    private ArrayList<User> users = new ArrayList<>();
-    private final String FILENAME = "users.txt";
+    public static ArrayList<User> users = new ArrayList<>();
+    public final static String FILENAME = "users.txt";
+
+    // Add new users
+    public static void addUser(User user) {
+        users.add(user);
+        try {
+            PrintWriter writer = new PrintWriter(new FileWriter(FILENAME, true));
+            writer.println(user.toString());
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
 
 
     /**
@@ -266,13 +288,31 @@ public class LoginForm extends javax.swing.JFrame {
         setLocation(centerX, centerY);
     }
 
-    public User findUser(String username, String password) {
-        for (User user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                return user;
+    private User validateUser(String username, char[] password) {
+        File file = new File("users.txt");
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] userData = line.split(" ");
+                String userType = userData[0];
+                if (userData[3].equals(username)) {
+                    if (userData[4].equals(new String(password))) {
+                        if (userType.equals("client")) {
+                            return new Client(userData[0], userData[1], userData[2], userData[3], userData[4],
+                                    userData[5], userData[6], userData[7], userData[8], userData[9]);
+                        } else if (userType.equals("admin")) {
+                            return new Admin(userData[0], userData[1], userData[2], userData[3], userData[4],
+                                    userData[5], userData[6], userData[7], userData[8], userData[9]);
+                        } else {
+                            return null;
+                        }
+                    }
+                }
             }
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "User not found.");
         }
-        return null; // user not found
+        return null;
     }
 
     public void buttonHover() {
@@ -358,30 +398,33 @@ public class LoginForm extends javax.swing.JFrame {
         });
     }
 
-    /*private String getPasswordFromPasswordField(JPasswordField passwordField) {
-        char[] passwordChars = passwordField.getPassword();
-        return new String(passwordChars);
-    }
-    */
-
     private void nextTabButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextTabButtonActionPerformed
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_nextTabButtonActionPerformed
 
     private void forgotPasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        String username = JOptionPane.showInputDialog("Enter your username:");
-        String password = JOptionPane.showInputDialog("Enter your password:");
-        User user = findUser(username, password);
-        if (user == null) {
-            JOptionPane.showMessageDialog(null, "Invalid username or password.");
-        } else {
-            String answer = JOptionPane.showInputDialog(user.getSecurityQuestion());
-            if (answer == null || !answer.equals(user.getSecurityAnswer())) {
-                JOptionPane.showMessageDialog(null, "Incorrect answer to security question.");
-            } else {
+        JTextField usernameField = new JTextField();
+        JTextField securityAnswerField = new JTextField();
+
+        Object[] message = {
+            "Username:", usernameField,
+            "Security Answer:", securityAnswerField
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Forgot Password", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            String username = usernameField.getText();
+            String securityAnswer = securityAnswerField.getText();
+
+            // Validate user and retrieve password
+            User user = validateUserByUsernameAndSecurityAnswer(username, securityAnswer);
+            if (user != null) {
                 JOptionPane.showMessageDialog(null, "Your password is: " + user.getPassword());
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid username or security answer.");
             }
         }
+
     }
 
     private void newUserButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -398,15 +441,41 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String username = usernameField.getText();
-        String password = new String(passwordField.getPassword());
-        User user = findUser(username, password);
+        char[] password = passwordField.getPassword();
+        User user = validateUser(username, password);
         if (user == null) {
             JOptionPane.showMessageDialog(null, "Invalid username or password.");
         } else {
             JOptionPane.showMessageDialog(null, "Welcome back, " + user.getFirstName() + "!");
-            // Proceed to main application
+            new AppointmentGUI();
             // ...
         }
+    }
+
+    private User validateUserByUsernameAndSecurityAnswer(String username, String securityAnswer) {
+        User user = null;
+        File file = new File("users.txt");
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] data = line.split(" ");
+
+                if (data[3].equals(username) && data[5].equals(securityAnswer)) {
+                    user = new User(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10]);
+                    break;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+    public char[] getPasswordFromPasswordField(JPasswordField passwordField) {
+        char[] passwordChars = passwordField.getPassword();
+        return passwordChars;
     }
 
     /**

@@ -8,46 +8,12 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 
 public class UserManager extends javax.swing.JFrame {
-    {
-
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }
 
     public UserManager() {
         initComponents();
         buttonHover();
-        setVisible(true);
         centerPanel();
-    }
-
-    public void centerPanel() {
-            // Get the screen size
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-        // Calculate the center position of the screen
-        int centerX = (int) ((screenSize.getWidth() - getWidth()) / 2);
-        int centerY = (int) ((screenSize.getHeight() - getHeight()) / 2);
-
-        // Set the position of the frame to the center of the screen
-        setLocation(centerX, centerY);
-
-        // Set the position of the frame to the center of the screen
-        setLocation(centerX, centerY);
+        setVisible(true);
     }
 
     /**
@@ -128,16 +94,33 @@ public class UserManager extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void centerPanel() {
+        // Get the screen size
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // Calculate the center position of the screen
+        int centerX = (int) ((screenSize.getWidth() - getWidth()) / 2);
+        int centerY = (int) ((screenSize.getHeight() - getHeight()) / 2);
+
+        // Set the position of the frame to the center of the screen
+        setLocation(centerX, centerY);
+
+        // Set the position of the frame to the center of the screen
+        setLocation(centerX, centerY);
+    }
+
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonActionPerformed
-        new Admin();
+        new NewAdminGUI();
+        this.dispose();
     }//GEN-LAST:event_adminButtonActionPerformed
 
     private void clientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientButtonActionPerformed
-        new Client();
+        new NewClientGUI();
+        this.dispose();
     }//GEN-LAST:event_clientButtonActionPerformed
     public void buttonHover() {
         clientButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -145,7 +128,7 @@ public class UserManager extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 clientButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             }
-            
+
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 clientButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -157,7 +140,7 @@ public class UserManager extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 adminButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             }
-                 
+
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 adminButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -169,7 +152,7 @@ public class UserManager extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 cancelButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             }
-            
+
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 cancelButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -190,5 +173,5 @@ public class UserManager extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel userManagerPanel;
     // End of variables declaration//GEN-END:variables
-    }
+}
 

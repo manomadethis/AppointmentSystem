@@ -1,16 +1,24 @@
 package com.hairforyou.appointmentsystem;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author lambe
  */
-public class Client extends javax.swing.JFrame {
+public class NewClientGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form Client
      */
-    public Client() {
+    public NewClientGUI() {
         initComponents();
+        centerPanel();
+        buttonHover();
+        setVisible(true);
     }
 
     /**
@@ -28,24 +36,24 @@ public class Client extends javax.swing.JFrame {
         questionLabel = new javax.swing.JLabel();
         firstNameLabel = new javax.swing.JLabel();
         lastNameLabel = new javax.swing.JLabel();
-        securityQuestionField = new javax.swing.JPasswordField();
-        lastNameField = new javax.swing.JPasswordField();
-        confirmPasswordField = new javax.swing.JPasswordField();
         addressLabel = new javax.swing.JLabel();
-        addressField = new javax.swing.JPasswordField();
         phoneNumberLabel = new javax.swing.JLabel();
-        phoneNumberField = new javax.swing.JPasswordField();
         passwordLabel = new javax.swing.JLabel();
-        passwordField = new javax.swing.JPasswordField();
         confirmPasswordLabel = new javax.swing.JLabel();
-        firstNameField = new javax.swing.JPasswordField();
         cancelButton = new javax.swing.JButton();
         securityQuestionLabel1 = new javax.swing.JLabel();
         sexLabel1 = new javax.swing.JLabel();
-        sexField1 = new javax.swing.JPasswordField();
         usernameLabel1 = new javax.swing.JLabel();
-        usernameField1 = new javax.swing.JPasswordField();
-        submitButton1 = new javax.swing.JButton();
+        submitButton = new javax.swing.JButton();
+        passwordField = new javax.swing.JPasswordField();
+        firstNameField = new javax.swing.JTextField();
+        lastNameField = new javax.swing.JTextField();
+        sexField = new javax.swing.JTextField();
+        addressField = new javax.swing.JTextField();
+        phoneNumberField = new javax.swing.JTextField();
+        confirmPasswordField = new javax.swing.JPasswordField();
+        usernameField = new javax.swing.JTextField();
+        securityQuestionField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -73,61 +81,21 @@ public class Client extends javax.swing.JFrame {
         lastNameLabel.setText("Last Name:");
         clientPanel.add(lastNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
-        securityQuestionField.setBackground(new java.awt.Color(204, 204, 204));
-        securityQuestionField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        securityQuestionField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
-        clientPanel.add(securityQuestionField, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 470, 230, -1));
-
-        lastNameField.setBackground(new java.awt.Color(204, 204, 204));
-        lastNameField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lastNameField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
-        clientPanel.add(lastNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 230, -1));
-
-        confirmPasswordField.setBackground(new java.awt.Color(204, 204, 204));
-        confirmPasswordField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        confirmPasswordField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
-        clientPanel.add(confirmPasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, 170, -1));
-
         addressLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         addressLabel.setText("Address:");
         clientPanel.add(addressLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
-
-        addressField.setBackground(new java.awt.Color(204, 204, 204));
-        addressField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        addressField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
-        clientPanel.add(addressField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, 230, -1));
 
         phoneNumberLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         phoneNumberLabel.setText("Phone number:");
         clientPanel.add(phoneNumberLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
 
-        phoneNumberField.setBackground(new java.awt.Color(204, 204, 204));
-        phoneNumberField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        phoneNumberField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
-        phoneNumberField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                phoneNumberFieldActionPerformed(evt);
-            }
-        });
-        clientPanel.add(phoneNumberField, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 200, -1));
-
         passwordLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         passwordLabel.setText("Password:");
         clientPanel.add(passwordLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
 
-        passwordField.setBackground(new java.awt.Color(204, 204, 204));
-        passwordField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        passwordField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
-        clientPanel.add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, 230, -1));
-
         confirmPasswordLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         confirmPasswordLabel.setText("Confirm Password:");
         clientPanel.add(confirmPasswordLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, -1, -1));
-
-        firstNameField.setBackground(new java.awt.Color(204, 204, 204));
-        firstNameField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        firstNameField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
-        clientPanel.add(firstNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 230, -1));
 
         cancelButton.setBackground(new java.awt.Color(255, 0, 0));
         cancelButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -148,56 +116,197 @@ public class Client extends javax.swing.JFrame {
         sexLabel1.setText("Sex:");
         clientPanel.add(sexLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
 
-        sexField1.setBackground(new java.awt.Color(204, 204, 204));
-        sexField1.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        sexField1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
-        clientPanel.add(sexField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 230, -1));
-
         usernameLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         usernameLabel1.setText("Username:");
         clientPanel.add(usernameLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, -1, -1));
 
-        usernameField1.setBackground(new java.awt.Color(204, 204, 204));
-        usernameField1.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        usernameField1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
-        usernameField1.addActionListener(new java.awt.event.ActionListener() {
+        submitButton.setBackground(new java.awt.Color(0, 255, 0));
+        submitButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        submitButton.setText("Submit");
+        submitButton.setBorderPainted(false);
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameField1ActionPerformed(evt);
+                submitButtonActionPerformed(evt);
             }
         });
-        clientPanel.add(usernameField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, 230, -1));
+        clientPanel.add(submitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 510, 90, 30));
 
-        submitButton1.setBackground(new java.awt.Color(0, 255, 0));
-        submitButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        submitButton1.setText("Submit");
-        submitButton1.setBorderPainted(false);
-        submitButton1.addActionListener(new java.awt.event.ActionListener() {
+        passwordField.setBackground(new java.awt.Color(204, 204, 204));
+        passwordField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        passwordField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
+        clientPanel.add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, 230, -1));
+
+        firstNameField.setBackground(new java.awt.Color(204, 204, 204));
+        firstNameField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        firstNameField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 255)));
+        firstNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitButton1ActionPerformed(evt);
+                firstNameFieldActionPerformed(evt);
             }
         });
-        clientPanel.add(submitButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 510, 90, 30));
+        clientPanel.add(firstNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 230, -1));
+
+        lastNameField.setBackground(new java.awt.Color(204, 204, 204));
+        lastNameField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lastNameField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 255)));
+        lastNameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lastNameFieldActionPerformed(evt);
+            }
+        });
+        clientPanel.add(lastNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 230, -1));
+
+        sexField.setBackground(new java.awt.Color(204, 204, 204));
+        sexField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        sexField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 255)));
+        sexField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sexFieldActionPerformed(evt);
+            }
+        });
+        clientPanel.add(sexField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 230, -1));
+
+        addressField.setBackground(new java.awt.Color(204, 204, 204));
+        addressField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        addressField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 255)));
+        addressField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressFieldActionPerformed(evt);
+            }
+        });
+        clientPanel.add(addressField, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, 210, -1));
+
+        phoneNumberField.setBackground(new java.awt.Color(204, 204, 204));
+        phoneNumberField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        phoneNumberField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 255)));
+        phoneNumberField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phoneNumberFieldActionPerformed(evt);
+            }
+        });
+        clientPanel.add(phoneNumberField, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 200, -1));
+
+        confirmPasswordField.setBackground(new java.awt.Color(204, 204, 204));
+        confirmPasswordField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        confirmPasswordField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
+        clientPanel.add(confirmPasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, 170, -1));
+
+        usernameField.setBackground(new java.awt.Color(204, 204, 204));
+        usernameField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        usernameField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 255)));
+        usernameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameFieldActionPerformed(evt);
+            }
+        });
+        clientPanel.add(usernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, 230, -1));
+
+        securityQuestionField.setBackground(new java.awt.Color(204, 204, 204));
+        securityQuestionField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        securityQuestionField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 255)));
+        securityQuestionField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                securityQuestionFieldActionPerformed(evt);
+            }
+        });
+        clientPanel.add(securityQuestionField, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 470, 230, -1));
 
         getContentPane().add(clientPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 560));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void phoneNumberFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_phoneNumberFieldActionPerformed
+    public void buttonHover() {
+        submitButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                submitButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                submitButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+            }
+        });
+
+        cancelButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cancelButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                cancelButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+            }
+        });
+    }
+
+    public void centerPanel() {
+        // Get the screen size
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // Calculate the center position of the screen
+        int centerX = (int) ((screenSize.getWidth() - getWidth()) / 2);
+        int centerY = (int) ((screenSize.getHeight() - getHeight()) / 2);
+
+        // Set the position of the frame to the center of the screen
+        setLocation(centerX, centerY);
+
+        // Set the position of the frame to the center of the screen
+        setLocation(centerX, centerY);
+    }
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void usernameField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameField1ActionPerformed
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        String sex = sexField.getText();
+        String address = addressField.getText();
+        String phoneNumber = phoneNumberField.getText();
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+        String securityAnswer = securityQuestionField.getText();
 
-    private void submitButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_submitButton1ActionPerformed
+        if (firstName.isEmpty() || lastName.isEmpty() || sex.isEmpty() ||
+        address.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() ||
+        password.length() == 0 || securityAnswer.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "All fields are required.");
+            return;
+        }
+
+        User client = new Client("client", firstName, lastName, sex, null, phoneNumber, username, password,
+        securityAnswer, address);
+        LoginForm.addUser(client);
+        JOptionPane.showMessageDialog(null, "Client account created.");
+        dispose();
+
+    }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
+    }//GEN-LAST:event_firstNameFieldActionPerformed
+
+    private void lastNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNameFieldActionPerformed
+    }//GEN-LAST:event_lastNameFieldActionPerformed
+
+    private void sexFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexFieldActionPerformed
+    }//GEN-LAST:event_sexFieldActionPerformed
+
+    private void addressFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressFieldActionPerformed
+    }//GEN-LAST:event_addressFieldActionPerformed
+
+    private void phoneNumberFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberFieldActionPerformed
+    }//GEN-LAST:event_phoneNumberFieldActionPerformed
+
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
+    }//GEN-LAST:event_usernameFieldActionPerformed
+
+    private void securityQuestionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_securityQuestionFieldActionPerformed
+
+    }//GEN-LAST:event_securityQuestionFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,29 +315,29 @@ public class Client extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPasswordField addressField;
+    private javax.swing.JTextField addressField;
     private javax.swing.JLabel addressLabel;
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel clientPanel;
     private javax.swing.JPasswordField confirmPasswordField;
     private javax.swing.JLabel confirmPasswordLabel;
-    private javax.swing.JPasswordField firstNameField;
+    private javax.swing.JTextField firstNameField;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JLabel hairForYouWhiteLogo;
-    private javax.swing.JPasswordField lastNameField;
+    private javax.swing.JTextField lastNameField;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JLabel newClientLabel;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
-    private javax.swing.JPasswordField phoneNumberField;
+    private javax.swing.JTextField phoneNumberField;
     private javax.swing.JLabel phoneNumberLabel;
     private javax.swing.JLabel questionLabel;
-    private javax.swing.JPasswordField securityQuestionField;
+    private javax.swing.JTextField securityQuestionField;
     private javax.swing.JLabel securityQuestionLabel1;
-    private javax.swing.JPasswordField sexField1;
+    private javax.swing.JTextField sexField;
     private javax.swing.JLabel sexLabel1;
-    private javax.swing.JButton submitButton1;
-    private javax.swing.JPasswordField usernameField1;
+    private javax.swing.JButton submitButton;
+    private javax.swing.JTextField usernameField;
     private javax.swing.JLabel usernameLabel1;
     // End of variables declaration//GEN-END:variables
 }

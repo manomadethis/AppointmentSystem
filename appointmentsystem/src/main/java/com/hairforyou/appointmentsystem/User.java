@@ -1,11 +1,15 @@
 package com.hairforyou.appointmentsystem;
 
+import java.util.Arrays;
+
+import javax.swing.JPasswordField;
+
 public class User {
+    private String userType;
     private String firstName;
     private String lastName;
     private String username;
     private String password;
-    private String securityQuestion;
     private String securityAnswer;
     private String role; // for admins only
     private String emailAddress; // for admins only
@@ -13,31 +17,26 @@ public class User {
     private String sex;
     private String address;
 
-    public User(String firstName, String lastName, String username, String password,
-            String securityQuestion, String securityAnswer, String phoneNumber, String sex,
-            String address) {
+    public User(String userType, String firstName, String lastName, String username, String password, String securityAnswer, String role, String emailAddress,
+                String phoneNumber, String sex, String address) {
+        this.userType = userType;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.securityQuestion = securityQuestion;
         this.securityAnswer = securityAnswer;
+        this.role = role;
+        this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
         this.sex = sex;
         this.address = address;
     }
 
-    // Constructor for admins
-    public User(String firstName, String lastName, String username, String password,
-            String securityQuestion, String securityAnswer, String role, String emailAddress,
-            String phoneNumber, String sex, String address) {
-        this(firstName, lastName, username, password, securityQuestion, securityAnswer,
-                phoneNumber, sex, address);
-        this.role = role;
-        this.emailAddress = emailAddress;
+    // Getters and setters
+    public String userType() {
+        return userType;
     }
 
-    // Getters and setters
     public String getFirstName() {
         return firstName;
     }
@@ -52,10 +51,6 @@ public class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getSecurityQuestion() {
-        return securityQuestion;
     }
 
     public String getSecurityAnswer() {
@@ -82,6 +77,19 @@ public class User {
         return address;
     }
 
+    String getPasswordFromPasswordField(JPasswordField passwordField) {
+        char[] passwordChars = passwordField.getPassword();
+        return new String(passwordChars);
+    }
+
+    String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -96,10 +104,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setSecurityQuestion(String securityQuestion) {
-        this.securityQuestion = securityQuestion;
     }
 
     public void setSecurityAnswer(String securityAnswer) {
@@ -125,4 +129,10 @@ public class User {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String toString() {
+        return userType + " " + firstName + " " + lastName + " " + username + " " + password + " " + securityAnswer + " " + role + " " + emailAddress + " " + phoneNumber + " " + sex + " " + address;
+    }
+
+
 }
