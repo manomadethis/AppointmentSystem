@@ -1,4 +1,4 @@
 admin Josiah Gordon jgordon password Jordan employee josiahgordon@gmail.com 876-316-6434 null null
-admin Kimano Lambert manoklm password Max manager lambertkimano@gmail.com 876-316-6434 null null
+admin Kimano Lambert admin password Max manager lambertkimano@gmail.com 876-316-6434 null null
 admin Joseph Joestar jojo password Joe marketing director jojo@gmail.com 748-478-255 null null
-client Samuel Jackson sammy password Jacksonville null null 463-256-267 Male 34 Frank Street
+client Samuel Jackson sammy password Jacksonville null null 463-256-267 Male 34-Frank-Street

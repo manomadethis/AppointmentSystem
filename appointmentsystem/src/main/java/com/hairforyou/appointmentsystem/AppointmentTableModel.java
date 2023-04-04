@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class AppointmentTableModel extends AbstractTableModel {
-    
+
     private static final String[] COLUMN_NAMES = {"ID", "Name", "Number", "Address", "Date", "Time"};
     private static final int ID_COL = 0;
     private static final int NAME_COL = 1;
@@ -17,9 +17,9 @@ public class AppointmentTableModel extends AbstractTableModel {
     private static final int ADDRESS_COL = 3;
     private static final int DATE_COL = 4;
     private static final int TIME_COL = 5;
-    
+
     private List<Appointment> appointments;
-    
+
     public AppointmentTableModel(List<Appointment> appointments) {
         this.appointments = appointments;
     }
@@ -33,7 +33,7 @@ public class AppointmentTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return COLUMN_NAMES.length;
     }
-    
+
     @Override
     public String getColumnName(int columnIndex) {
         return COLUMN_NAMES[columnIndex];
@@ -44,7 +44,7 @@ public class AppointmentTableModel extends AbstractTableModel {
         Appointment appointment = appointments.get(rowIndex);
         switch (columnIndex) {
             case ID_COL:
-                return appointment.hashCode();
+                return appointment.getCustomerID();
             case NAME_COL:
                 return appointment.getCustomerName();
             case NUMBER_COL:
@@ -59,7 +59,7 @@ public class AppointmentTableModel extends AbstractTableModel {
                 return null;
         }
     }
-    
+
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         Appointment appointment = appointments.get(rowIndex);
@@ -85,7 +85,7 @@ public class AppointmentTableModel extends AbstractTableModel {
         }
         fireTableCellUpdated(rowIndex, columnIndex);
     }
-    
+
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return columnIndex != ID_COL;
@@ -105,7 +105,7 @@ public class AppointmentTableModel extends AbstractTableModel {
         appointments.remove(rowIndex);
         fireTableRowsDeleted(rowIndex, rowIndex);
     }
-    
+
     //Getters
     public Appointment getAppointmentAt(int rowIndex) {
         return appointments.get(rowIndex);

@@ -11,6 +11,7 @@ import java.awt.*;
 public class UpdateAppointmentDialog extends JDialog {
 
     private Appointment appointment;
+
     public UpdateAppointmentDialog(JFrame parent, AppointmentDao appointmentDao, Appointment appointment) {
         super(parent, "Update Appointment", true);
         this.appointment = appointment;

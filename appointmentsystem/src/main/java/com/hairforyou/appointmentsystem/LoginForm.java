@@ -16,7 +16,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class LoginForm extends javax.swing.JFrame {
@@ -448,7 +447,7 @@ public class LoginForm extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Welcome back, " + user.getFirstName() + "!");
             new AppointmentGUI();
-            // ...
+            this.dispose();
         }
     }
 

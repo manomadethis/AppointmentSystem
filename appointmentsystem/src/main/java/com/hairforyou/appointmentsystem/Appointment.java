@@ -74,17 +74,4 @@ public class Appointment {
         this.time = time;
     }
 
-    // Override toString() method to display appointment information
-    /*
-    @Override
-    public String toString() {
-        return "ID: " + hashCode() + "\n" +
-                "Customer Name: " + customerName + "\n" +
-                "Customer Number: " + customerNumber + "\n" +
-                "Customer Address: " + customerAddress + "\n" +
-                "Date: " + date + "\n" +
-                "Time: " + time + "\n";
-    }
-    */
 }
-

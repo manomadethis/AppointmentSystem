@@ -6,7 +6,11 @@ package com.hairforyou.appointmentsystem;
  */
 
 import javax.swing.*;
+
+import com.itextpdf.text.DocumentException;
+
 import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 
 public class AppointmentGUI extends JFrame {
@@ -18,6 +22,7 @@ public class AppointmentGUI extends JFrame {
     private JButton addButton;
     private JButton updateButton;
     private JButton removeButton;
+    private JButton generateReportButton;
 
     private AppointmentDaoImpl appointmentDao;
 
@@ -46,21 +51,36 @@ public class AppointmentGUI extends JFrame {
         updateButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         removeButton = new JButton("Remove Appointment");
         removeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        generateReportButton = new JButton("Generate Report");
+        generateReportButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         // Set the component properties
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setFont(new Font("Perpetua", Font.BOLD, 20));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         appointmentTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         appointmentTable.setAutoCreateRowSorter(true);
         addButton.setPreferredSize(new Dimension(150, 30));
         updateButton.setPreferredSize(new Dimension(150, 30));
         removeButton.setPreferredSize(new Dimension(150, 30));
+        generateReportButton.setPreferredSize(new Dimension(150, 30));
+
+        // Create a new Color object with RGB values
+        Color panelColor = new Color(204, 204, 204);
+
+        // Set the background color of the panel
+        getContentPane().setBackground(panelColor);
+        appointmentTable.setBackground(panelColor);
 
         // Create the GUI layout
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(removeButton);
+        buttonPanel.add(generateReportButton);
+
+        // Set the background color of the panel
+        buttonPanel.setBackground(panelColor);
+        tableScrollPane.setBackground(panelColor);
 
         setLayout(new BorderLayout());
         add(titleLabel, BorderLayout.NORTH);
@@ -90,23 +110,46 @@ public class AppointmentGUI extends JFrame {
             updateAppointmentDialog.setVisible(true);
             Appointment updatedAppointment = updateAppointmentDialog.getAppointment();
             if (updatedAppointment != null) {
-                appointmentDao.updateAppointment(updatedAppointment);
-                ((AppointmentTableModel) appointmentTable.getModel()).updateAppointment(updatedAppointment, selectedRow);
+                boolean success = appointmentDao.updateAppointment(updatedAppointment);
+                if (success) {
+                    ((AppointmentTableModel) appointmentTable.getModel()).updateAppointment(updatedAppointment, selectedRow);
+                    JOptionPane.showMessageDialog(this, "Appointment updated successfully.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error: Could not update appointment.");
+                }
             }
         });
 
         // Action Listener for Remove Appointment
         removeButton.addActionListener(e -> {
-            int selectedRow = appointmentTable.getSelectedRow();
-            if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(this, "Please select an appointment to remove", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to remove this appointment?", "Confirm", JOptionPane.YES_NO_OPTION);
-                if (confirmation == JOptionPane.OK_OPTION) {
-                    ((AppointmentTableModel) appointmentTable.getModel()).getAppointmentAt(selectedRow);
-                    RemoveAppointmentDialog.showDialog(AppointmentGUI.this, appointmentDao);
-                    ((AppointmentTableModel) appointmentTable.getModel()).removeAppointment(selectedRow);
+                int selectedRow = appointmentTable.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(this, "Please select an appointment to remove.");
+                } else {
+                    int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to remove this appointment?");
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        int appointmentId = (int) appointmentTable.getModel().getValueAt(selectedRow, 0);
+                        AppointmentDao appointmentDao = new AppointmentDaoImpl();
+                        if (appointmentDao.removeAppointment(appointmentId)) {
+                            ((AppointmentTableModel) appointmentTable.getModel()).removeAppointment(selectedRow);
+                            JOptionPane.showMessageDialog(this, "Appointment removed successfully.");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Error: Could not remove appointment.");
+                        }
+                    }
                 }
+        });
+
+        // Action Listener for Remove Appointment
+        generateReportButton.addActionListener(e -> {
+            try {
+                boolean fileSelected = appointmentDao.generateReport();
+                if (fileSelected == true) {
+                    JOptionPane.showMessageDialog(null, "Report generated successfully.");
+                }
+            } catch (IOException | DocumentException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Failed to generate report: " + ex.getMessage());
             }
         });
 

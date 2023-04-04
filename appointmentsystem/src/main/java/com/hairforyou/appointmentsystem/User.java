@@ -1,7 +1,5 @@
 package com.hairforyou.appointmentsystem;
 
-import java.util.Arrays;
-
 import javax.swing.JPasswordField;
 
 public class User {
