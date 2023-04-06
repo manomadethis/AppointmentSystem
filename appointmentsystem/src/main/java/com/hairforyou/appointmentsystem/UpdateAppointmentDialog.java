@@ -6,7 +6,14 @@ package com.hairforyou.appointmentsystem;
  */
 
 import javax.swing.*;
+
+import com.toedter.calendar.JCalendar;
+
 import java.awt.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class UpdateAppointmentDialog extends JDialog {
 
@@ -71,28 +78,32 @@ public class UpdateAppointmentDialog extends JDialog {
         panel.add(addressField, constraints);
 
         // Date Label
-        JLabel dateLabel = new JLabel("Date (YYYY-MM-DD):");
+        JLabel dateLabel = new JLabel("Date");
         constraints.gridx = 0;
         constraints.gridy = 4;
         panel.add(dateLabel, constraints);
 
-        // Date Field
-        JTextField dateField = new JTextField(appointment.getDate(), 20);
+        // JCalendar for Date Field
+        JCalendar calendar = new JCalendar();
         constraints.gridx = 1;
         constraints.gridy = 4;
-        panel.add(dateField, constraints);
+        panel.add(calendar, constraints);
 
         // Time Label
-        JLabel timeLabel = new JLabel("Time (HH:MM):");
+        JLabel timeLabel = new JLabel("Time:");
         constraints.gridx = 0;
         constraints.gridy = 5;
         panel.add(timeLabel, constraints);
 
-        // Time Field
-        JTextField timeField = new JTextField(appointment.getTime(), 20);
+        // Time Field with JSpinner
+        SpinnerDateModel spinnerTimeModel = new SpinnerDateModel();
+        spinnerTimeModel.setCalendarField(Calendar.MINUTE);
+        JSpinner timeSpinner = new JSpinner(spinnerTimeModel);
+        timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "hh:mm a"));
+        timeSpinner.setValue(new Date());
         constraints.gridx = 1;
         constraints.gridy = 5;
-        panel.add(timeField, constraints);
+        panel.add(timeSpinner, constraints);
 
         // OK Button
         JButton okButton = new JButton("OK");
@@ -106,15 +117,41 @@ public class UpdateAppointmentDialog extends JDialog {
         constraints.gridy = 6;
         panel.add(cancelButton, constraints);
 
+        // Set the date on the JCalendar to the previously chosen date
+        try {
+            Date selectedDate = new SimpleDateFormat("yyyy-MM-dd").parse(appointment.getDate());
+            calendar.setDate(selectedDate);
+        } catch (ParseException ex) {
+            // handle exception appropriately
+        }
+
+        // Set the time on the JSpinner to the previously chosen time
+        try {
+            Date selectedTime = new SimpleDateFormat("hh:mm a").parse(appointment.getTime());
+            timeSpinner.setValue(selectedTime);
+        } catch (ParseException ex) {
+            // handle exception appropriately
+        }
+
         // Action Listener for OK Button
         okButton.addActionListener(e -> {
             appointment.setCustomerName(nameField.getText());
             appointment.setCustomerNumber(numberField.getText());
             appointment.setCustomerAddress(addressField.getText());
-            appointment.setDate(dateField.getText());
-            appointment.setTime(timeField.getText());
+            // Get the selected date from the JCalendar
+            Date selectedDate = calendar.getDate();
+            // Convert the date format to yyyy-MM-dd
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = dateFormat.format(selectedDate);
+            appointment.setDate(formattedDate);
+            // Get the selected time from the JSpinner
+            Date selectedTime = (Date) timeSpinner.getValue();
+            // Convert the time format to HH:MM:am/pm
+            String formattedTime = new SimpleDateFormat("hh:mm a").format(selectedTime);
+            appointment.setTime(formattedTime);
             dispose();
         });
+
 
         // Action Listener for Cancel Button
         cancelButton.addActionListener(e -> {

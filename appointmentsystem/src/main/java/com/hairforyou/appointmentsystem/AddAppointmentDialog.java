@@ -4,10 +4,16 @@ package com.hairforyou.appointmentsystem;
  *
  * @author manoklm
  */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import com.toedter.calendar.JDateChooser;
 
 public class AddAppointmentDialog extends JDialog {
 
@@ -15,8 +21,6 @@ public class AddAppointmentDialog extends JDialog {
     private JTextField nameField;
     private JTextField numberField;
     private JTextField addressField;
-    private JTextField dateField;
-    private JTextField timeField;
     private JButton okButton;
     private JButton cancelButton;
 
@@ -65,23 +69,35 @@ public class AddAppointmentDialog extends JDialog {
         addressField = new JTextField(20);
         panel.add(addressField, constraints);
 
-        // Date field
+        // Date Label
+        JLabel dateLabel = new JLabel("Date");
         constraints.gridx = 0;
         constraints.gridy = 4;
-        panel.add(new JLabel("Date:"), constraints);
+        panel.add(dateLabel, constraints);
 
+        // Date Field with JCalendar
+        JDateChooser dateField = new JDateChooser();
+        dateField.setDateFormatString("yyyy-MM-dd");
+        dateField.setDate(new Date());
         constraints.gridx = 1;
-        dateField = new JTextField(20);
+        constraints.gridy = 4;
         panel.add(dateField, constraints);
 
-        // Time field
+        // Time Label
+        JLabel timeLabel = new JLabel("Time:");
         constraints.gridx = 0;
         constraints.gridy = 5;
-        panel.add(new JLabel("Time:"), constraints);
+        panel.add(timeLabel, constraints);
 
+        // Time Field with JSpinner
+        SpinnerDateModel spinnerTimeModel = new SpinnerDateModel();
+        spinnerTimeModel.setCalendarField(Calendar.MINUTE);
+        JSpinner timeSpinner = new JSpinner(spinnerTimeModel);
+        timeSpinner.setEditor(new JSpinner.DateEditor(timeSpinner, "hh:mm a"));
+        timeSpinner.setValue(new Date());
         constraints.gridx = 1;
-        timeField = new JTextField(20);
-        panel.add(timeField, constraints);
+        constraints.gridy = 5;
+        panel.add(timeSpinner, constraints);
 
         // Buttons
         constraints.gridx = 0;
@@ -92,12 +108,12 @@ public class AddAppointmentDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 int id = Integer.parseInt(idField.getText());
                 appointment = new Appointment(
-                        id,
-                        nameField.getText(),
-                        numberField.getText(),
-                        addressField.getText(),
-                        dateField.getText(),
-                        timeField.getText()
+                    id,
+                    nameField.getText(),
+                    numberField.getText(),
+                    addressField.getText(),
+                    new SimpleDateFormat("yyyy-MM-dd").format(dateField.getCalendar().getTime()),
+                    new SimpleDateFormat("hh:mm a").format((Date) timeSpinner.getValue())
                 );
                 boolean success = appointmentDao.addAppointment(appointment);
                 if (success) {

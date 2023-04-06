@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,23 +74,23 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
     @Override
-public boolean updateAppointment(Appointment appointment) {
-    try {
-        PreparedStatement stmt = conn.prepareStatement("UPDATE appointments SET name=?, number=?, address=?, date=?, time=? WHERE id=?");
-        stmt.setString(1, appointment.getCustomerName());
-        stmt.setString(2, appointment.getCustomerNumber());
-        stmt.setString(3, appointment.getCustomerAddress());
-        stmt.setString(4, appointment.getDate());
-        stmt.setString(5, appointment.getTime());
-        stmt.setInt(6, appointment.getCustomerID()); // <-- Set the correct ID value here
-        stmt.executeUpdate();
-        stmt.close();
-        return true;
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
+    public boolean updateAppointment(Appointment appointment) {
+        try {
+            PreparedStatement stmt = conn.prepareStatement("UPDATE appointments SET name=?, number=?, address=?, date=?, time=? WHERE id=?");
+            stmt.setString(1, appointment.getCustomerName());
+            stmt.setString(2, appointment.getCustomerNumber());
+            stmt.setString(3, appointment.getCustomerAddress());
+            stmt.setString(4, appointment.getDate());
+            stmt.setString(5, appointment.getTime());
+            stmt.setInt(6, appointment.getCustomerID()); // <-- Set the correct ID value here
+            stmt.executeUpdate();
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
 
     @Override
     public boolean removeAppointment(int id) {
@@ -132,7 +133,7 @@ public boolean updateAppointment(Appointment appointment) {
         List<Appointment> appointments = getAppointments();
 
         // Set the default file name to "Appointment Report-[today's date]-[current time].pdf"
-        String defaultFileName = String.format("Appointment Report-%s-%s.pdf", LocalDate.now().toString());
+        String defaultFileName = String.format("Appointment Report-%s-%s.pdf", LocalDate.now().toString(), LocalTime.now().toString().replace(':', '-'));
 
         // Create a file chooser dialog with the default file name
         JFileChooser fileChooser = new JFileChooser();
@@ -150,43 +151,42 @@ public boolean updateAppointment(Appointment appointment) {
             File selectedFile = fileChooser.getSelectedFile();
 
             // If the selected file name does not end with .pdf, add it to the file name
-            if (!selectedFile.getName().endsWith(".pdf")) {
-                selectedFile = new File(selectedFile.getAbsolutePath() + ".pdf");
+            if (!selectedFile.getName().toLowerCase().endsWith(".pdf")) {
+                selectedFile = new File(selectedFile.getPath() + ".pdf");
             }
 
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(selectedFile));
             document.open();
+
             Paragraph title = new Paragraph("Appointment Report");
             title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
 
-            // Add spacing between the title and the table contents
-            document.add(new Paragraph("\n"));
+            document.add(new Paragraph(" "));
 
             PdfPTable table = new PdfPTable(6);
+            table.addCell("ID");
+            table.addCell("Name");
+            table.addCell("Number");
+            table.addCell("Address");
             table.addCell("Date");
             table.addCell("Time");
-            table.addCell("Client ID");
-            table.addCell("Client Name");
-            table.addCell("Client Number");
-            table.addCell("Client Address");
 
             for (Appointment appointment : appointments) {
-                table.addCell(appointment.getDate());
-                table.addCell(appointment.getTime());
-                table.addCell(Integer.toString(appointment.getCustomerID()));
+                table.addCell(String.valueOf(appointment.getCustomerID()));
                 table.addCell(appointment.getCustomerName());
                 table.addCell(appointment.getCustomerNumber());
                 table.addCell(appointment.getCustomerAddress());
+                table.addCell(appointment.getDate());
+                table.addCell(appointment.getTime());
             }
 
             document.add(table);
             document.close();
-
             return true;
         }
-
         return false;
     }
+
 }

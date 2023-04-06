@@ -113,7 +113,7 @@ public class AppointmentGUI extends JFrame {
                 boolean success = appointmentDao.updateAppointment(updatedAppointment);
                 if (success) {
                     ((AppointmentTableModel) appointmentTable.getModel()).updateAppointment(updatedAppointment, selectedRow);
-                    JOptionPane.showMessageDialog(this, "Appointment updated successfully.");
+                    //JOptionPane.showMessageDialog(this, "Appointment updated successfully.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: Could not update appointment.");
                 }
