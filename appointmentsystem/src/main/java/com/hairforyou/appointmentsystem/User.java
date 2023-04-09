@@ -31,10 +31,6 @@ public class User {
     }
 
     // Getters and setters
-    public String userType() {
-        return userType;
-    }
-
     public String getFirstName() {
         return firstName;
     }

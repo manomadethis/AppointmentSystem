@@ -279,9 +279,9 @@ public class NewClientGUI extends javax.swing.JFrame {
             return;
         }
 
-        User client = new Client("client", firstName, lastName, sex, null, phoneNumber, username, password,
-        securityAnswer, modifiedAddress);
-        LoginForm.addUser(client);
+        User client = new Client("client", firstName, lastName, username, password, securityAnswer, null,
+        null, phoneNumber, sex, modifiedAddress);
+        LoginSystem.addUser(client);
         JOptionPane.showMessageDialog(null, "Client account created.");
         dispose();
 

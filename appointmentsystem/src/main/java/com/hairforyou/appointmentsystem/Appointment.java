@@ -30,8 +30,8 @@ public class Appointment {
         return customerID;
     }
 
-    public int setCustomerID(int customerID) {
-        return this.customerID = customerID;
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
     public String getCustomerName() {

@@ -1,4 +1,13 @@
 admin Josiah Gordon jgordon password Jordan employee josiahgordon@gmail.com 876-316-6434 null null
-admin Kimano Lambert admin password Max manager lambertkimano@gmail.com 876-316-6434 null null
-admin Joseph Joestar jojo password Joe marketing director jojo@gmail.com 748-478-255 null null
-client Samuel Jackson sammy password Jacksonville null null 463-256-267 Male 34-Frank-Street
+admin Admin Admin admin password Admin manager lambertkimano@gmail.com 876-915-7879 null null
+admin Joseph Joestar jojo password Joe marketing_director jojo@gmail.com 876-478-2550 null null
+client Henry James hjames james12345 Frankfield null null 876-636-266 Male 7-Harvy-Street
+client John Smith jsmith smith12345 Kingston null null 876-123-456 Male 10-Arlington-Avenue
+client Sarah Johnson sjohnson johnson12345 Montego-Bay null null 876-234-567 Female 15-Ocean-View-Drive
+client Michael Brown mbrown brown12345 Ocho-Rios null null 876-345-678 Male 25-Island-View-Road
+client Emily Davis edavis davis12345 Mandeville null null 876-456-789 Female 5-Parish-Lane
+client William Jones wjones jones12345 Negril null null 876-567-890 Male 3-Beach-Road
+client Ashley Martin amartin martin12345 Port-Antonio null null 876-678-901 Female 12-Harbour-View
+client Daniel Wilson dwilson wilson12345 Spanish-Town null null 876-789-012 Male 9-Kingston-Road
+client Samantha Lee slee lee12345 Portmore null null 876-890-123 Female 17-Seaview-Drive
+client Robert Thompson rthompson thompson12345 Runaway-Bay null null 876-901-234 Male 20-Caribbean-Drive

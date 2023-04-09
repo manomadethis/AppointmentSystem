@@ -18,12 +18,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class LoginForm extends javax.swing.JFrame {
+public class LoginSystem extends javax.swing.JFrame {
 
     /**
      * Creates new form LoginForm
      */
-    public LoginForm() {
+    public LoginSystem() {
         initComponents();
         buttonHover();
         centerPanel();
@@ -298,10 +298,10 @@ public class LoginForm extends javax.swing.JFrame {
                     if (userData[4].equals(new String(password))) {
                         if (userType.equals("client")) {
                             return new Client(userData[0], userData[1], userData[2], userData[3], userData[4],
-                                    userData[5], userData[6], userData[7], userData[8], userData[9]);
+                                    userData[5], userData[6], userData[7], userData[8], userData[9], userData[10]);
                         } else if (userType.equals("admin")) {
                             return new Admin(userData[0], userData[1], userData[2], userData[3], userData[4],
-                                    userData[5], userData[6], userData[7], userData[8], userData[9]);
+                                    userData[5], userData[6], userData[7], userData[8], userData[9], userData[10]);
                         } else {
                             return null;
                         }

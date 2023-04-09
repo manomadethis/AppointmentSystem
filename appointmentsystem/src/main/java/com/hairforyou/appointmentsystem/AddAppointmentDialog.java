@@ -9,9 +9,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -25,6 +30,8 @@ public class AddAppointmentDialog extends JDialog {
     private JButton cancelButton;
 
     private Appointment appointment;
+
+    public static ArrayList<User> users = new ArrayList<>();
 
     public AddAppointmentDialog(JFrame parent, AppointmentDao appointmentDao) {
         super(parent, "Add Appointment", true);
@@ -40,6 +47,7 @@ public class AddAppointmentDialog extends JDialog {
 
         constraints.gridx = 1;
         idField = new JTextField(20);
+        idField.setEditable(false);
         panel.add(idField, constraints);
 
         // Name field
@@ -99,45 +107,108 @@ public class AddAppointmentDialog extends JDialog {
         constraints.gridy = 5;
         panel.add(timeSpinner, constraints);
 
-        // Buttons
-        constraints.gridx = 0;
-        constraints.gridy = 6;
-        okButton = new JButton("OK");
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int id = Integer.parseInt(idField.getText());
-                appointment = new Appointment(
-                    id,
-                    nameField.getText(),
-                    numberField.getText(),
-                    addressField.getText(),
-                    new SimpleDateFormat("yyyy-MM-dd").format(dateField.getCalendar().getTime()),
-                    new SimpleDateFormat("hh:mm a").format((Date) timeSpinner.getValue())
-                );
-                boolean success = appointmentDao.addAppointment(appointment);
-                if (success) {
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(AddAppointmentDialog.this,
-                            "Unable to add appointment.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        panel.add(okButton, constraints);
+            // Create a new combo box for selecting clients
+            JComboBox<String> clientComboBox = new JComboBox<>();
 
-        constraints.gridx = 1;
-        cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                appointment = null;
-                dispose();
+            // Populate the combo box with clients
+            try {
+                // Open the users.txt file and read each line
+                BufferedReader reader = new BufferedReader(new FileReader("users.txt"));
+                String line = reader.readLine();
+
+                while (line != null) {
+                    // Split the line into fields
+                    String[] fields = line.split(" ");
+
+                    // Add Users of type client
+                if (fields[0].equals("client")) {
+                    Client client = new Client("client", fields[1], fields[2], fields[3], fields[4], fields[5], null,
+                    null, fields[8], fields[9], fields[10]);
+                    String fullName = client.getFirstName() + " " + client.getLastName();
+                    users.add(client);
+                    clientComboBox.addItem(fullName);
+                }
+
+                    // Read the next line
+                    line = reader.readLine();
+                }
+
+                // Close the reader
+                reader.close();
+            } catch (IOException ex) {
+                // Handle the exception
             }
-        });
-        panel.add(cancelButton, constraints);
+
+            // Show the combo box in a dialog box
+            int result = JOptionPane.showConfirmDialog(null, clientComboBox, "Select an existing client", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            // Get the selected client from the combo box
+            int selectedIndex = clientComboBox.getSelectedIndex();
+            Client selectedClient = (Client) users.get(selectedIndex);
+
+            // Set the client's data to the relevant fields in the appointment dialog
+            nameField.setText(selectedClient.getFirstName() + " " + selectedClient.getLastName());
+
+            numberField.setText(selectedClient.getPhoneNumber());
+
+            String address = selectedClient.getAddress().replaceAll("-", " ");
+            addressField.setText(address);
+
+
+            // Set the ID field to a randomly generated number between 1000000 and 1009999
+            Random random = new Random();
+            int id = random.nextInt(100000, 100000);
+            idField.setText("100" + String.valueOf(id));
+
+        // Check if the user clicked OK
+        if (result == JOptionPane.OK_OPTION) {
+            // Create the OK and Cancel buttons
+            okButton = new JButton("OK");
+            cancelButton = new JButton("Cancel");
+
+            okButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    // Create a new appointment object and add it to the database
+                    appointment = new Appointment(
+                        Integer.parseInt(idField.getText()),
+                        nameField.getText(),
+                        numberField.getText(),
+                        addressField.getText(),
+                        new SimpleDateFormat("yyyy-MM-dd").format(dateField.getCalendar().getTime()),
+                        new SimpleDateFormat("hh:mm a").format((Date) timeSpinner.getValue())
+                    );
+
+                    boolean success = appointmentDao.addAppointment(appointment);
+                    if (success) {
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(AddAppointmentDialog.this,
+                                "Unable to add appointment.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+
+            // Add an ActionListener to the Cancel button
+            cancelButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    appointment = null;
+                    dispose();
+                }
+            });
+
+            // Add the OK and Cancel buttons to the panel
+            constraints.gridx = 0;
+            constraints.gridy = 6;
+            panel.add(okButton, constraints);
+
+            constraints.gridx = 1;
+            panel.add(cancelButton, constraints);
+        }
 
         setContentPane(panel);
         pack();
