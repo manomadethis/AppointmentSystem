@@ -10,6 +10,8 @@ import java.io.IOException;
  */
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import java.util.Date;
 
 public class AppointmentDaoImpl implements AppointmentDao {
 
@@ -129,6 +133,38 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
     @Override
+    public boolean hasConflict(Appointment appointment) {
+        try {
+            // Get all appointments with the same date as the given appointment
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM appointments WHERE date=?");
+            stmt.setString(1, appointment.getDate());
+            ResultSet rs = stmt.executeQuery();
+
+            // Check if there is at least one appointment within 2 hours of the given appointment
+            while (rs.next()) {
+                String existingTime = rs.getString("time");
+                Date existingDateTime = new SimpleDateFormat("yyyy-MM-dd hh:mm a").parse(appointment.getDate() + " " + existingTime);
+                Date newDateTime = new SimpleDateFormat("yyyy-MM-dd hh:mm a").parse(appointment.getDate() + " " + appointment.getTime());
+                long timeDiff = Math.abs(existingDateTime.getTime() - newDateTime.getTime()) / (60 * 1000);
+                if (timeDiff <= 119) {
+                    rs.close();
+                    stmt.close();
+                    return true;
+                }
+            }
+
+            rs.close();
+            stmt.close();
+
+            return false;
+
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public boolean generateReport() throws IOException, DocumentException {
         List<Appointment> appointments = getAppointments();
 
@@ -187,6 +223,16 @@ public class AppointmentDaoImpl implements AppointmentDao {
             return true;
         }
         return false;
+    }
+
+    public boolean scheduleAppointment(Appointment appointment) {
+        if (hasConflict(appointment)) {
+            return false;
+        } else {
+            final List<Appointment> appointmentRequests = new ArrayList<>();
+            appointmentRequests.add(appointment);
+            return true;
+        }
     }
 
 }

@@ -30,6 +30,7 @@ public class LoginSystem extends javax.swing.JFrame {
     }
 
     // Data storage
+    static User currentUser;
     public static ArrayList<User> users = new ArrayList<>();
     public final static String FILENAME = "users.txt";
 
@@ -45,6 +46,14 @@ public class LoginSystem extends javax.swing.JFrame {
         }
     }
 
+
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -221,6 +230,11 @@ public class LoginSystem extends javax.swing.JFrame {
                 loginButtonActionPerformed(evt);
             }
         });
+        loginButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                loginButtonKeyPressed(evt);
+            }
+        });
         jPanel3.add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 460, 320, 40));
 
         usernameLabel.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
@@ -263,6 +277,11 @@ public class LoginSystem extends javax.swing.JFrame {
         passwordField.setBackground(new java.awt.Color(204, 204, 204));
         passwordField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         passwordField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 51, 255)));
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordFieldActionPerformed(evt);
+            }
+        });
         jPanel3.add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 400, 320, -1));
 
         jTabbedPane1.addTab("tab2", jPanel3);
@@ -435,8 +454,16 @@ public class LoginSystem extends javax.swing.JFrame {
     }//GEN-LAST:event_prevTabButtonActionPerformed
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
-
+        loginButtonActionPerformed(evt);
     }//GEN-LAST:event_usernameFieldActionPerformed
+
+    private void loginButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loginButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loginButtonKeyPressed
+
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
+        loginButtonActionPerformed(evt);
+    }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String username = usernameField.getText();
@@ -445,8 +472,15 @@ public class LoginSystem extends javax.swing.JFrame {
         if (user == null) {
             JOptionPane.showMessageDialog(null, "Invalid username or password.");
         } else {
-            JOptionPane.showMessageDialog(null, "Welcome back, " + user.getFirstName() + "!");
-            new AppointmentGUI();
+            LoginSystem.setCurrentUser(user);
+            String userType = user.getUserType();
+            if (userType.equalsIgnoreCase("client")) {
+                JOptionPane.showMessageDialog(null, "Welcome back, " + user.getFirstName() + "!");
+                new ClientMenuGUI();
+            } else {
+                JOptionPane.showMessageDialog(null, "Welcome back, " + user.getFirstName() + "!");
+                new AppointmentGUI();
+            }
             this.dispose();
         }
     }

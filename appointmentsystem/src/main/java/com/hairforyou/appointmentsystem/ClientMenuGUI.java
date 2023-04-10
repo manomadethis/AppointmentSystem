@@ -1,20 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.hairforyou.appointmentsystem;
 
+import java.awt.Cursor;
 /**
  *
  * @author manoklm
  */
 public class ClientMenuGUI extends javax.swing.JFrame {
 
+    private Appointment appointment;
+    private AppointmentDao appointmentDao;
     /**
      * Creates new form AppointmentGUI2
      */
     public ClientMenuGUI() {
         initComponents();
+        setVisible(true);
     }
 
     /**
@@ -27,15 +27,11 @@ public class ClientMenuGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        hairForYouBlackIconLabel = new javax.swing.JLabel();
         welcomeBackLabel = new javax.swing.JLabel();
-        scheduleAppointment = new javax.swing.JButton();
-        closeMenu = new javax.swing.JButton();
-        viewAppointment2 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        dateLabel = new javax.swing.JLabel();
-        firstNameField = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
+        requestAppointmentButton = new javax.swing.JButton();
+        signOutButton = new javax.swing.JButton();
+        viewAppointmentButton = new javax.swing.JButton();
+        hairForYouWhiteLogo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -43,102 +39,77 @@ public class ClientMenuGUI extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        hairForYouBlackIconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hairforyou/appointmentsystem/images/hair-for-you-logo.png"))); // NOI18N
-        jPanel1.add(hairForYouBlackIconLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 70));
-
         welcomeBackLabel.setBackground(new java.awt.Color(0, 102, 204));
         welcomeBackLabel.setFont(new java.awt.Font("Perpetua", 0, 30)); // NOI18N
         welcomeBackLabel.setText("CLIENT MENU");
         welcomeBackLabel.setToolTipText("1");
-        jPanel1.add(welcomeBackLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, -1));
+        jPanel1.add(welcomeBackLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, -1, -1));
 
-        scheduleAppointment.setBackground(new java.awt.Color(153, 153, 153));
-        scheduleAppointment.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
-        scheduleAppointment.setText("Schedule an Appointment");
-        scheduleAppointment.setBorderPainted(false);
-        scheduleAppointment.addActionListener(new java.awt.event.ActionListener() {
+        requestAppointmentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        requestAppointmentButton.setBackground(new java.awt.Color(204, 204, 204));
+        requestAppointmentButton.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
+        requestAppointmentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hairforyou/appointmentsystem/images/request-appointment.png"))); // NOI18N
+        requestAppointmentButton.setBorderPainted(false);
+        requestAppointmentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                scheduleAppointmentActionPerformed(evt);
+                requestAppointmentButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(scheduleAppointment, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 450, -1, 30));
+        jPanel1.add(requestAppointmentButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 50, 30));
 
-        closeMenu.setBackground(new java.awt.Color(153, 153, 153));
-        closeMenu.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
-        closeMenu.setText("Close Menu");
-        closeMenu.setBorderPainted(false);
-        closeMenu.addActionListener(new java.awt.event.ActionListener() {
+        signOutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        signOutButton.setBackground(new java.awt.Color(204, 204, 204));
+        signOutButton.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
+        signOutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hairforyou/appointmentsystem/images/sign-out.png"))); // NOI18N
+        signOutButton.setBorderPainted(false);
+        signOutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeMenuActionPerformed(evt);
+                signOutButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(closeMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 450, -1, 30));
+        jPanel1.add(signOutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 50, 50));
 
-        viewAppointment2.setBackground(new java.awt.Color(153, 153, 153));
-        viewAppointment2.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
-        viewAppointment2.setText("View Appointments");
-        viewAppointment2.setBorderPainted(false);
-        viewAppointment2.addActionListener(new java.awt.event.ActionListener() {
+        viewAppointmentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        viewAppointmentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hairforyou/appointmentsystem/images/view-appointment.png"))); // NOI18N
+        viewAppointmentButton.setBorderPainted(false);
+        viewAppointmentButton.setContentAreaFilled(false);
+        viewAppointmentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewAppointment2ActionPerformed(evt);
+                viewAppointmentButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(viewAppointment2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 450, -1, 30));
+        jPanel1.add(viewAppointmentButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, -1, 50));
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        hairForYouWhiteLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hairforyou/appointmentsystem/images/hair-for-you-logo-small.png"))); // NOI18N
+        jPanel1.add(hairForYouWhiteLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 30, 40));
 
-        dateLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        dateLabel.setText("Date:");
-        jPanel2.add(dateLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
-
-        firstNameField.setBackground(new java.awt.Color(153, 153, 153));
-        firstNameField.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        firstNameField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 102, 255)));
-        firstNameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                firstNameFieldActionPerformed(evt);
-            }
-        });
-        jPanel2.add(firstNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 230, -1));
-
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, 370, 350));
-
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 380, 350));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 500));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void scheduleAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleAppointmentActionPerformed
-    }//GEN-LAST:event_scheduleAppointmentActionPerformed
+    private void requestAppointmentButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        new RequestAppointmentDialog(this, appointmentDao);
+    }
 
-    private void closeMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuActionPerformed
-    }//GEN-LAST:event_closeMenuActionPerformed
+    private void signOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButtonActionPerformed
+    }//GEN-LAST:event_signOutButtonActionPerformed
 
-    private void viewAppointment2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewAppointment2ActionPerformed
-    }//GEN-LAST:event_viewAppointment2ActionPerformed
+    private void viewAppointmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewAppointmentButtonActionPerformed
 
-    private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
-
-    }//GEN-LAST:event_firstNameFieldActionPerformed
+    }//GEN-LAST:event_viewAppointmentButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton closeMenu;
-    private javax.swing.JLabel dateLabel;
-    private javax.swing.JTextField firstNameField;
-    private javax.swing.JLabel hairForYouBlackIconLabel;
+    private javax.swing.JLabel hairForYouWhiteLogo;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JButton scheduleAppointment;
-    private javax.swing.JButton viewAppointment2;
+    private javax.swing.JButton requestAppointmentButton;
+    private javax.swing.JButton signOutButton;
+    private javax.swing.JButton viewAppointmentButton;
     private javax.swing.JLabel welcomeBackLabel;
     // End of variables declaration//GEN-END:variables
 }

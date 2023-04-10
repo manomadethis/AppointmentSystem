@@ -74,4 +74,9 @@ public class Appointment {
         this.time = time;
     }
 
+    public int getDuration() {
+        return 120;
+    }
+
+
 }

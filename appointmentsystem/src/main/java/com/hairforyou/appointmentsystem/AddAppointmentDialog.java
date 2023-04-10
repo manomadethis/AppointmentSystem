@@ -157,7 +157,7 @@ public class AddAppointmentDialog extends JDialog {
 
             // Set the ID field to a randomly generated number between 1000000 and 1009999
             Random random = new Random();
-            int id = random.nextInt(100000, 100000);
+            int id = random.nextInt(100000, 1000000);
             idField.setText("100" + String.valueOf(id));
 
         // Check if the user clicked OK
@@ -169,8 +169,7 @@ public class AddAppointmentDialog extends JDialog {
             okButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    // Create a new appointment object and add it to the database
+                    // Create a new appointment object with input data
                     appointment = new Appointment(
                         Integer.parseInt(idField.getText()),
                         nameField.getText(),
@@ -180,6 +179,16 @@ public class AddAppointmentDialog extends JDialog {
                         new SimpleDateFormat("hh:mm a").format((Date) timeSpinner.getValue())
                     );
 
+                    // Check if the appointment conflicts with any existing appointments
+                    if (appointmentDao.hasConflict(appointment)) {
+                        JOptionPane.showMessageDialog(AddAppointmentDialog.this,
+                                "This appointment conflicts with an existing appointment.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    // Add the appointment to the database
                     boolean success = appointmentDao.addAppointment(appointment);
                     if (success) {
                         dispose();
@@ -189,15 +198,6 @@ public class AddAppointmentDialog extends JDialog {
                                 "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }
-                }
-            });
-
-            // Add an ActionListener to the Cancel button
-            cancelButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    appointment = null;
-                    dispose();
                 }
             });
 

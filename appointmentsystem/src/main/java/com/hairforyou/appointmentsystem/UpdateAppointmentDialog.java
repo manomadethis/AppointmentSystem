@@ -143,12 +143,14 @@ public class UpdateAppointmentDialog extends JDialog {
             // Convert the date format to yyyy-MM-dd
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = dateFormat.format(selectedDate);
+
             appointment.setDate(formattedDate);
             // Get the selected time from the JSpinner
             Date selectedTime = (Date) timeSpinner.getValue();
             // Convert the time format to HH:MM:am/pm
             String formattedTime = new SimpleDateFormat("hh:mm a").format(selectedTime);
             appointment.setTime(formattedTime);
+
             dispose();
         });
 

@@ -23,6 +23,7 @@ public class AppointmentGUI extends JFrame {
     private JButton updateButton;
     private JButton removeButton;
     private JButton generateReportButton;
+    private JButton manageClientsButton;
 
     private AppointmentDaoImpl appointmentDao;
 
@@ -53,6 +54,8 @@ public class AppointmentGUI extends JFrame {
         removeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         generateReportButton = new JButton("Generate Report");
         generateReportButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        manageClientsButton = new JButton("Manage Clients");
+        manageClientsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         // Set the component properties
         titleLabel.setFont(new Font("Perpetua", Font.BOLD, 20));
@@ -63,6 +66,7 @@ public class AppointmentGUI extends JFrame {
         updateButton.setPreferredSize(new Dimension(150, 30));
         removeButton.setPreferredSize(new Dimension(150, 30));
         generateReportButton.setPreferredSize(new Dimension(150, 30));
+        manageClientsButton.setPreferredSize(new Dimension(150, 30));
 
         // Create a new Color object with RGB values
         Color panelColor = new Color(204, 204, 204);
@@ -77,6 +81,7 @@ public class AppointmentGUI extends JFrame {
         buttonPanel.add(updateButton);
         buttonPanel.add(removeButton);
         buttonPanel.add(generateReportButton);
+        buttonPanel.add(manageClientsButton);
 
         // Set the background color of the panel
         buttonPanel.setBackground(panelColor);
@@ -151,6 +156,11 @@ public class AppointmentGUI extends JFrame {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Failed to generate report: " + ex.getMessage());
             }
+        });
+
+        // Action Listener for Manage Clients button
+        manageClientsButton.addActionListener(e -> {
+
         });
 
     setVisible(true);

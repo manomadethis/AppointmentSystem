@@ -292,7 +292,7 @@ public class NewAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void securityQuestionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_securityQuestionFieldActionPerformed
-
+        submitButtonActionPerformed(evt);
     }//GEN-LAST:event_securityQuestionFieldActionPerformed
 
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {
