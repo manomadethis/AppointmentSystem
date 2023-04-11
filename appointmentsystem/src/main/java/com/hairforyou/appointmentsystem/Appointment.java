@@ -78,5 +78,13 @@ public class Appointment {
         return 120;
     }
 
+    public String toString() {
+        return "Customer ID: " + customerID + "\n" +
+            "Customer Name: " + customerName + "\n" +
+            "Customer Number: " + customerNumber + "\n" +
+            "Customer Address: " + customerAddress + "\n" +
+            "Date: " + date + "\n" +
+            "Time: " + time;
+    }
 
 }

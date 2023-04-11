@@ -92,8 +92,11 @@ public class ClientMenuGUI extends javax.swing.JFrame {
         new RequestAppointmentDialog(this, appointmentDao);
     }
 
-    private void signOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButtonActionPerformed
-    }//GEN-LAST:event_signOutButtonActionPerformed
+    private void signOutButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        this.dispose();
+        LoginSystem login = new LoginSystem();
+        login.setVisible(true);
+    }
 
     private void viewAppointmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewAppointmentButtonActionPerformed
 

@@ -11,7 +11,13 @@ import com.itextpdf.text.DocumentException;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 
 public class AppointmentGUI extends JFrame {
 
@@ -23,16 +29,18 @@ public class AppointmentGUI extends JFrame {
     private JButton updateButton;
     private JButton removeButton;
     private JButton generateReportButton;
-    private JButton manageClientsButton;
+    private JButton manageRequestsButton;
+    private JButton signOutButton;
 
     private AppointmentDaoImpl appointmentDao;
+    public static ArrayList<Appointment> appointmentRequests = new ArrayList<>();
 
     // Constructor
     public AppointmentGUI() {
 
         // Set the window properties
         setTitle("Hair For You Appointment Management System");
-        setSize(800, 600);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -54,8 +62,10 @@ public class AppointmentGUI extends JFrame {
         removeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         generateReportButton = new JButton("Generate Report");
         generateReportButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        manageClientsButton = new JButton("Manage Clients");
-        manageClientsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        manageRequestsButton = new JButton("Manage Requests");
+        manageRequestsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        signOutButton = new JButton("Sign Out");
+        signOutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         // Set the component properties
         titleLabel.setFont(new Font("Perpetua", Font.BOLD, 20));
@@ -66,26 +76,21 @@ public class AppointmentGUI extends JFrame {
         updateButton.setPreferredSize(new Dimension(150, 30));
         removeButton.setPreferredSize(new Dimension(150, 30));
         generateReportButton.setPreferredSize(new Dimension(150, 30));
-        manageClientsButton.setPreferredSize(new Dimension(150, 30));
+        manageRequestsButton.setPreferredSize(new Dimension(150, 30));
+        signOutButton.setPreferredSize(new Dimension(150, 30));
 
         // Create a new Color object with RGB values
         Color panelColor = new Color(204, 204, 204);
 
-        // Set the background color of the panel
-        getContentPane().setBackground(panelColor);
-        appointmentTable.setBackground(panelColor);
-
         // Create the GUI layout
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(panelColor);
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(removeButton);
         buttonPanel.add(generateReportButton);
-        buttonPanel.add(manageClientsButton);
-
-        // Set the background color of the panel
-        buttonPanel.setBackground(panelColor);
-        tableScrollPane.setBackground(panelColor);
+        buttonPanel.add(manageRequestsButton);
+        buttonPanel.add(signOutButton);;
 
         setLayout(new BorderLayout());
         add(titleLabel, BorderLayout.NORTH);
@@ -159,11 +164,103 @@ public class AppointmentGUI extends JFrame {
         });
 
         // Action Listener for Manage Clients button
-        manageClientsButton.addActionListener(e -> {
+        manageRequestsButton.addActionListener(e -> {
+            try {
+                File file = new File("appointmentRequests.txt");
+                if (!file.exists()) {
+                    JOptionPane.showMessageDialog(null, "There are no appointment requests.");
+                    System.out.println("file not found");
+                    return;
+                }
 
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                List<Appointment> appointmentRequests = new ArrayList<>();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split("\\|");
+                    Appointment appointment = new Appointment(Integer.parseInt(parts[0]), parts[1], parts[2], parts[3], parts[4], parts[5]);
+                    appointmentRequests.add(appointment);
+                }
+                reader.close();
+
+                if (appointmentRequests.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "There are no appointment requests.");
+                } else {
+                    String[] appointmentStrings = new String[appointmentRequests.size()];
+                    for (int i = 0; i < appointmentRequests.size(); i++) {
+                        Appointment appointment = appointmentRequests.get(i);
+                        appointmentStrings[i] = appointment.getCustomerName() + " - " + appointment.getDate() + " - " + appointment.getTime();
+
+                    }
+
+                    String selectedAppointmentString = (String) JOptionPane.showInputDialog(null, "Choose an appointment to manage:",
+                            "Manage Appointments", JOptionPane.QUESTION_MESSAGE, null, appointmentStrings, appointmentStrings[0]);
+
+                        if (selectedAppointmentString != null) {
+                            Appointment selectedAppointment = null;
+                            for (Appointment appointment : appointmentRequests) {
+                                String appointmentString = appointment.getCustomerName() + " - " + appointment.getDate() + " - " + appointment.getTime();
+                                if (appointmentString.equals(selectedAppointmentString)) {
+                                    selectedAppointment = appointment;
+                                    break;
+                                }
+                            }
+
+                        if (selectedAppointment != null) {
+                            String[] options = {"Approve", "Deny"};
+                            int choice = JOptionPane.showOptionDialog(null, selectedAppointment.toString(),
+                                    "Manage Appointment", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+                                    options, options[0]);
+
+                            if (choice == 0) {
+                                appointmentDao.addAppointment(selectedAppointment);
+                                ((AppointmentTableModel) appointmentTable.getModel()).addAppointment(selectedAppointment);
+                                appointmentRequests.remove(selectedAppointment);
+                                writeAppointmentRequestsToFile(appointmentRequests);
+                                JOptionPane.showMessageDialog(null, "Appointment approved.");
+                            } else if (choice == 1) {
+                                int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to deny this appointment?",
+                                        "Confirm Denial", JOptionPane.YES_NO_OPTION);
+                                if (confirm == JOptionPane.YES_OPTION) {
+                                    appointmentRequests.remove(selectedAppointment);
+                                    writeAppointmentRequestsToFile(appointmentRequests);
+                                    JOptionPane.showMessageDialog(null, "Appointment denied.");
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "An error occurred while reading appointment requests from file.");
+                ex.printStackTrace();
+            }
+        });
+
+
+        signOutButton.addActionListener(e -> {
+            this.dispose();
+            LoginSystem login = new LoginSystem();
+            login.setVisible(true);
         });
 
     setVisible(true);
+    }
 
+    private void writeAppointmentRequestsToFile(List<Appointment> appointmentRequests) {
+        try {
+            FileWriter writer = new FileWriter("appointmentRequests.txt");
+            for (Appointment appointment : appointmentRequests) {
+                writer.write(appointment.getCustomerID() + " " +
+                        appointment.getCustomerName() + " " +
+                        appointment.getCustomerNumber() + " " +
+                        appointment.getCustomerAddress() + " " +
+                        appointment.getDate() + " " +
+                        appointment.getTime() + "\n");
+            }
+            writer.close();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "An error occurred while writing appointment requests to file.");
+            ex.printStackTrace();
+        }
     }
 }

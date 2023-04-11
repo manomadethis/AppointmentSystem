@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import java.io.FileWriter;
+
 /**
  *
  * @author manoklm
@@ -32,6 +34,7 @@ import java.util.Date;
 public class AppointmentDaoImpl implements AppointmentDao {
 
     private Connection conn;
+    public static ArrayList<Appointment> appointmentRequests = new ArrayList<>();
 
     public AppointmentDaoImpl() {
         try {
@@ -226,12 +229,21 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
     public boolean requestAppointment(Appointment appointment) {
-        if (hasConflict(appointment)) {
-            return false;
-        } else {
-            final ArrayList<Appointment> appointmentRequests = new ArrayList<>();
-            appointmentRequests.add(appointment);
+        try {
+            FileWriter writer = new FileWriter("appointmentRequests.txt", true);
+            writer.write(appointment.getCustomerID() + "|" +
+                        appointment.getCustomerName() + "|" +
+                        appointment.getCustomerNumber() + "|" +
+                        appointment.getCustomerAddress() + "|" +
+                        appointment.getDate() + "|" +
+                        appointment.getTime() + "\n");
+            writer.close();
+            System.out.println("Appointment added to file.");
             return true;
+        } catch (IOException e) {
+            System.out.println("An error occurred while adding the appointment to file.");
+            e.printStackTrace();
+            return false;
         }
     }
 

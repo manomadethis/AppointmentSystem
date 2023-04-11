@@ -150,7 +150,7 @@ public class RequestAppointmentDialog extends JDialog {
                 // Check if the appointment conflicts with any existing appointment
                 if(appointmentDao.hasConflict(appointment)) {
                     JOptionPane.showMessageDialog(RequestAppointmentDialog.this,
-                        "This appointment conflicts with an existing appointment.",
+                        "This appointment conflicts with an existing appointment. Choose a different time or day.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                     return;
@@ -159,6 +159,10 @@ public class RequestAppointmentDialog extends JDialog {
                 // Set the appointment as a request
                 boolean success = appointmentDao.requestAppointment(appointment);
                 if (success) {
+                    JOptionPane.showMessageDialog(RequestAppointmentDialog.this,
+                        "Your request has been sent. Please wait for approval.",
+                        "Request Sent!",
+                        JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(RequestAppointmentDialog.this,
