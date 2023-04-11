@@ -1,5 +1,7 @@
 package com.hairforyou.appointmentsystem;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author manoklm
@@ -18,7 +20,7 @@ public class AppointmentTableModel extends AbstractTableModel {
     private static final int DATE_COL = 4;
     private static final int TIME_COL = 5;
 
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
 
     public AppointmentTableModel(List<Appointment> appointments) {
         this.appointments = appointments;

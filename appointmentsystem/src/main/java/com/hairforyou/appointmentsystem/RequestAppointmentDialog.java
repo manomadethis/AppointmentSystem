@@ -9,14 +9,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Random;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -113,22 +110,10 @@ public class RequestAppointmentDialog extends JDialog {
         String address = LoginSystem.currentUser.getAddress().replaceAll("-", " ");
         addressField.setText(address);
 
-        // Set the ID field to the ID number from the users.txt file
-        try {
-            List<String> lines = Files.readAllLines(Paths.get("users.txt"));
-            for (String line : lines) {
-                String[] fields = line.split("\\s+");
-                if (fields[0].equals("client") && fields[3].equals(LoginSystem.currentUser.getUsername())) {
-                    Integer id = Integer.parseInt(fields[11]);
-                    // set the ID field to the ID from the file
-                    idField.setText(String.valueOf(id));
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        // Set the ID field to a randomly generated number between 1000000 and 1009999
+        Random random = new Random();
+        int id = random.nextInt(100000, 1000000);
+        idField.setText("100" + String.valueOf(id));
 
         // Create the OK and Cancel buttons
         okButton = new JButton("OK");

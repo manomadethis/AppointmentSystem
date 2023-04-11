@@ -231,11 +231,11 @@ public class AppointmentDaoImpl implements AppointmentDao {
     public boolean requestAppointment(Appointment appointment) {
         try {
             FileWriter writer = new FileWriter("appointmentRequests.txt", true);
-            writer.write(appointment.getCustomerID() + "//|" +
-                        appointment.getCustomerName() + "//|" +
-                        appointment.getCustomerNumber() + "//|" +
-                        appointment.getCustomerAddress() + "//|" +
-                        appointment.getDate() + "//|" +
+            writer.write(appointment.getCustomerID() + "|" +
+                        appointment.getCustomerName() + "|" +
+                        appointment.getCustomerNumber() + "|" +
+                        appointment.getCustomerAddress() + "|" +
+                        appointment.getDate() + "|" +
                         appointment.getTime() + "\n");
             writer.close();
             System.out.println("Appointment added to file.");

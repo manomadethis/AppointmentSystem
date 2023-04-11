@@ -48,6 +48,7 @@ public class AppointmentGUI extends JFrame {
 
         // Get the appointment data from the database
         List<Appointment> appointments = null;
+        appointments = AppointmentDaoImpl.getAppointments();
 
         // Create the GUI components
         titleLabel = new JLabel("Appointments");
@@ -249,11 +250,11 @@ public class AppointmentGUI extends JFrame {
         try {
             FileWriter writer = new FileWriter("appointmentRequests.txt");
             for (Appointment appointment : appointmentRequests) {
-                writer.write(appointment.getCustomerID() + " " +
-                        appointment.getCustomerName() + " " +
-                        appointment.getCustomerNumber() + " " +
-                        appointment.getCustomerAddress() + " " +
-                        appointment.getDate() + " " +
+                writer.write(appointment.getCustomerID() + "|" +
+                        appointment.getCustomerName() + "|" +
+                        appointment.getCustomerNumber() + "|" +
+                        appointment.getCustomerAddress() + "|" +
+                        appointment.getDate() + "|" +
                         appointment.getTime() + "\n");
             }
             writer.close();
