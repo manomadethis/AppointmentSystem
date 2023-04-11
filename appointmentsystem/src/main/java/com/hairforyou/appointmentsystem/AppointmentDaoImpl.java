@@ -33,7 +33,7 @@ import java.util.Date;
 
 public class AppointmentDaoImpl implements AppointmentDao {
 
-    private Connection conn;
+    private static Connection conn;
     public static ArrayList<Appointment> appointmentRequests = new ArrayList<>();
 
     public AppointmentDaoImpl() {
@@ -113,7 +113,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
     }
 
-    public List<Appointment> getAppointments() {
+    public static List<Appointment> getAppointments() {
         List<Appointment> appointments = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
@@ -231,11 +231,11 @@ public class AppointmentDaoImpl implements AppointmentDao {
     public boolean requestAppointment(Appointment appointment) {
         try {
             FileWriter writer = new FileWriter("appointmentRequests.txt", true);
-            writer.write(appointment.getCustomerID() + "|" +
-                        appointment.getCustomerName() + "|" +
-                        appointment.getCustomerNumber() + "|" +
-                        appointment.getCustomerAddress() + "|" +
-                        appointment.getDate() + "|" +
+            writer.write(appointment.getCustomerID() + "//|" +
+                        appointment.getCustomerName() + "//|" +
+                        appointment.getCustomerNumber() + "//|" +
+                        appointment.getCustomerAddress() + "//|" +
+                        appointment.getDate() + "//|" +
                         appointment.getTime() + "\n");
             writer.close();
             System.out.println("Appointment added to file.");

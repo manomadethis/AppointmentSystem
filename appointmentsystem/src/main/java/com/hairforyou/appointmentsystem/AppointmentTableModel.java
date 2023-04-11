@@ -26,7 +26,11 @@ public class AppointmentTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return appointments.size();
+        if (appointments != null) {
+            return appointments.size();
+        } else {
+            return 0;
+        }
     }
 
     @Override

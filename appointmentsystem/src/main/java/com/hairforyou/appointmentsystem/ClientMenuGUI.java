@@ -1,6 +1,10 @@
 package com.hairforyou.appointmentsystem;
 
 import java.awt.Cursor;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
 /**
  *
  * @author manoklm
@@ -8,6 +12,8 @@ import java.awt.Cursor;
 public class ClientMenuGUI extends javax.swing.JFrame {
 
     AppointmentDao appointmentDao = new AppointmentDaoImpl();
+    List<Appointment> appointments = AppointmentDaoImpl.getAppointments();
+
     /**
      * Creates new form AppointmentGUI2
      */
@@ -98,9 +104,32 @@ public class ClientMenuGUI extends javax.swing.JFrame {
         login.setVisible(true);
     }
 
-    private void viewAppointmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewAppointmentButtonActionPerformed
+    private void viewAppointmentButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // Get the current user's name
+        String currentUser = LoginSystem.currentUser.getFirstName() + " " + LoginSystem.currentUser.getLastName();
+        // Search for appointments belonging to the current user
+        ArrayList<Appointment> matchingAppointments = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getCustomerName().equals(currentUser)) {
+                matchingAppointments.add(appointment);
+            }
+        }
 
-    }//GEN-LAST:event_viewAppointmentButtonActionPerformed
+        // If there are matching appointments, display them in a JOptionPane
+        if (!matchingAppointments.isEmpty()) {
+            StringBuilder message = new StringBuilder();
+            for (Appointment appointment : matchingAppointments) {
+                message.append("Appointment ID: ").append(appointment.getCustomerID())
+                .append("\nDate: ").append(appointment.getDate())
+                    .append("\nTime: ").append(appointment.getTime())
+                    .append("\n\n");
+            }
+            JOptionPane.showMessageDialog(null, message.toString(), "Appointments for " + currentUser, JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No appointments found for " + currentUser, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+            }
 
     /**
      * @param args the command line arguments

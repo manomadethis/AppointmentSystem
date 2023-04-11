@@ -48,7 +48,6 @@ public class AppointmentGUI extends JFrame {
 
         // Get the appointment data from the database
         List<Appointment> appointments = null;
-        appointments = appointmentDao.getAppointments();
 
         // Create the GUI components
         titleLabel = new JLabel("Appointments");

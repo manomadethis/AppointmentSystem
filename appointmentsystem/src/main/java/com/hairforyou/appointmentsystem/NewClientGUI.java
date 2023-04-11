@@ -261,7 +261,7 @@ public class NewClientGUI extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String sex = sexField.getText();
@@ -270,22 +270,28 @@ public class NewClientGUI extends javax.swing.JFrame {
         String phoneNumber = phoneNumberField.getText();
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword());
         String securityAnswer = securityQuestionField.getText();
+        String modifiedSecurityAnswer = address.replace(" ", "-");
 
         if (firstName.isEmpty() || lastName.isEmpty() || sex.isEmpty() ||
-        address.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() ||
-        password.length() == 0 || securityAnswer.isEmpty()) {
+            address.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() ||
+            password.length() == 0 || securityAnswer.isEmpty()) {
             JOptionPane.showMessageDialog(null, "All fields are required.");
             return;
         }
 
-        User client = new Client("client", firstName, lastName, username, password, securityAnswer, null,
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(null, "Password and confirm assword fields do not match.");
+            return;
+        }
+
+        User client = new Client("client", firstName, lastName, username, password, modifiedSecurityAnswer, null,
         null, phoneNumber, sex, modifiedAddress, null);
         LoginSystem.addUser(client);
         JOptionPane.showMessageDialog(null, "Client account created.");
         dispose();
-
-    }//GEN-LAST:event_submitButtonActionPerformed
+    }
 
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
     }//GEN-LAST:event_firstNameFieldActionPerformed

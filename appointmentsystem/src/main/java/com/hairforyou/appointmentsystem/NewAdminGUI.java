@@ -262,7 +262,7 @@ public class NewAdminGUI extends javax.swing.JFrame {
         setLocation(centerX, centerY);
     }
 
-    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String role = roleField.getText();
@@ -270,22 +270,28 @@ public class NewAdminGUI extends javax.swing.JFrame {
         String phoneNumber = phoneNumberField.getText();
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword());
         String securityAnswer = securityQuestionField.getText();
 
         if (firstName.isEmpty() || lastName.isEmpty() || role.isEmpty() ||
-        emailAddress.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() ||
-        password.length() == 0 || securityAnswer.isEmpty()) {
+            emailAddress.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() ||
+            password.length() == 0 || securityAnswer.isEmpty()) {
             JOptionPane.showMessageDialog(null, "All fields are required.");
             return;
         }
 
-        User admin = new Admin("admin", firstName, lastName, role, emailAddress, phoneNumber, username, password, securityAnswer, null, null, null);
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(null, "Password and confirm password fields do not match.");
+            return;
+        }
+
+        User admin = new Admin("admin", firstName, lastName, username, password, securityAnswer, role,
+                                emailAddress, phoneNumber, null, null, null);
         LoginSystem.addUser(admin);
         JOptionPane.showMessageDialog(null, "Admin account created.");
         dispose();
+    }
 
-
-    }//GEN-LAST:event_submitButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         dispose();
