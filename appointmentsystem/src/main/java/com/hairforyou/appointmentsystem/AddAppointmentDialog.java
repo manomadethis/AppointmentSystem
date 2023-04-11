@@ -12,10 +12,13 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import com.toedter.calendar.JDateChooser;
@@ -97,7 +100,7 @@ public class AddAppointmentDialog extends JDialog {
         constraints.gridy = 5;
         panel.add(timeLabel, constraints);
 
-        // Time Field with JSpinner
+        // JComboBox for selecting time slot
         SpinnerDateModel spinnerTimeModel = new SpinnerDateModel();
         spinnerTimeModel.setCalendarField(Calendar.MINUTE);
         JSpinner timeSpinner = new JSpinner(spinnerTimeModel);
@@ -123,7 +126,7 @@ public class AddAppointmentDialog extends JDialog {
                     // Add Users of type client
                 if (fields[0].equals("client")) {
                     Client client = new Client("client", fields[1], fields[2], fields[3], fields[4], fields[5], null,
-                    null, fields[8], fields[9], fields[10]);
+                    null, fields[8], fields[9], fields[10], null);
                     String fullName = client.getFirstName() + " " + client.getLastName();
                     users.add(client);
                     clientComboBox.addItem(fullName);
@@ -156,9 +159,42 @@ public class AddAppointmentDialog extends JDialog {
 
 
             // Set the ID field to a randomly generated number between 1000000 and 1009999
-            Random random = new Random();
-            int id = random.nextInt(100000, 1000000);
-            idField.setText("100" + String.valueOf(id));
+            if (selectedClient.getId() == null) {
+                Random random = new Random();
+                int id = random.nextInt(100000, 1000000);
+                idField.setText("100" + String.valueOf(id));
+                selectedClient.setId(id);
+
+                // Update the users file with the id
+                try {
+                    // Read the contents of the "users.txt" file into a list of strings
+                    List<String> lines = Files.readAllLines(Paths.get("users.txt"));
+                    // Loop through the list and find the line that contains the client's information
+                    for (int i = 0; i < lines.size(); i++) {
+                        String line = lines.get(i);
+                        if (line.contains(selectedClient.getUsername())) {
+                            // Split the line into an array of strings
+                            String[] fields = line.split("\\s+");
+                            fields[11] = "100" + String.valueOf(id);
+                            // Join the array back into a string and update the line in the list
+                            String updatedLine = String.join(" ", fields);
+                            lines.set(i, updatedLine);
+                            // Write the updated list of strings back to the "users.txt" file
+                            Files.write(Paths.get("users.txt"), lines);
+                            // Update the selected client's id
+                            selectedClient.setId(id);
+                            break;
+                        }
+                    }
+                } catch (IOException e) {
+                    // Handle the exception
+                    e.printStackTrace();
+                }
+            }
+
+            else {
+                idField.setText(String.valueOf(selectedClient.getId()));
+            }
 
         // Check if the user clicked OK
         if (result == JOptionPane.OK_OPTION) {
