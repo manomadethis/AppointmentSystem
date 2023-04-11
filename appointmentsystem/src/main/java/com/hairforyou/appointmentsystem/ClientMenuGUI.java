@@ -7,8 +7,7 @@ import java.awt.Cursor;
  */
 public class ClientMenuGUI extends javax.swing.JFrame {
 
-    private Appointment appointment;
-    private AppointmentDao appointmentDao;
+    AppointmentDao appointmentDao = new AppointmentDaoImpl();
     /**
      * Creates new form AppointmentGUI2
      */

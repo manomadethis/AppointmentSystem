@@ -279,7 +279,7 @@ public class NewAdminGUI extends javax.swing.JFrame {
             return;
         }
 
-        User admin = new Admin("admin", firstName, lastName, role, emailAddress, phoneNumber, username, password, securityAnswer, null, null);
+        User admin = new Admin("admin", firstName, lastName, role, emailAddress, phoneNumber, username, password, securityAnswer, null, null, null);
         LoginSystem.addUser(admin);
         JOptionPane.showMessageDialog(null, "Admin account created.");
         dispose();

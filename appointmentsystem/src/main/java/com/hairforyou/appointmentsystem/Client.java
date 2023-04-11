@@ -2,9 +2,9 @@ package com.hairforyou.appointmentsystem;
 
 public class Client extends User {
     public Client(String userType, String firstName, String lastName, String username, String password, String securityAnswer, String role, String emailAddress,
-    String phoneNumber, String sex, String address) {
+    String phoneNumber, String sex, String address, Integer id) {
         super("client", firstName, lastName, username, password, securityAnswer, null,
-        null, phoneNumber, sex, address);
+        null, phoneNumber, sex, address, id);
     }
 }
 

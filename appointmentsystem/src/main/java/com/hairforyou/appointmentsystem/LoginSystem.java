@@ -317,10 +317,10 @@ public class LoginSystem extends javax.swing.JFrame {
                     if (userData[4].equals(new String(password))) {
                         if (userType.equals("client")) {
                             return new Client(userData[0], userData[1], userData[2], userData[3], userData[4],
-                                    userData[5], userData[6], userData[7], userData[8], userData[9], userData[10]);
+                                    userData[5], userData[6], userData[7], userData[8], userData[9], userData[10], null);
                         } else if (userType.equals("admin")) {
                             return new Admin(userData[0], userData[1], userData[2], userData[3], userData[4],
-                                    userData[5], userData[6], userData[7], userData[8], userData[9], userData[10]);
+                                    userData[5], userData[6], userData[7], userData[8], userData[9], userData[10], null);
                         } else {
                             return null;
                         }
@@ -495,7 +495,7 @@ public class LoginSystem extends javax.swing.JFrame {
                 String[] data = line.split(" ");
 
                 if (data[3].equals(username) && data[5].equals(securityAnswer)) {
-                    user = new User(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10]);
+                    user = new User(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], Integer.parseInt(data[11]));
                     break;
                 }
             }

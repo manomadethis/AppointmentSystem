@@ -13,7 +13,7 @@ public interface AppointmentDao {
     public boolean addAppointment(Appointment appointment);
     public boolean updateAppointment(Appointment appointment);
     public boolean removeAppointment(int id);
-    public boolean scheduleAppointment(Appointment appointment);
+    public boolean requestAppointment(Appointment appointment);
     public boolean hasConflict(Appointment appointment);
     public boolean generateReport() throws IOException, DocumentException;
 }

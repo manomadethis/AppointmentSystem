@@ -225,11 +225,11 @@ public class AppointmentDaoImpl implements AppointmentDao {
         return false;
     }
 
-    public boolean scheduleAppointment(Appointment appointment) {
+    public boolean requestAppointment(Appointment appointment) {
         if (hasConflict(appointment)) {
             return false;
         } else {
-            final List<Appointment> appointmentRequests = new ArrayList<>();
+            final ArrayList<Appointment> appointmentRequests = new ArrayList<>();
             appointmentRequests.add(appointment);
             return true;
         }

@@ -3,6 +3,7 @@ package com.hairforyou.appointmentsystem;
 import javax.swing.JPasswordField;
 
 public class User {
+    private Integer id;
     private String userType;
     private String firstName;
     private String lastName;
@@ -16,7 +17,7 @@ public class User {
     private String address;
 
     public User(String userType, String firstName, String lastName, String username, String password, String securityAnswer, String role, String emailAddress,
-                String phoneNumber, String sex, String address) {
+                String phoneNumber, String sex, String address, Integer id) {
         this.userType = userType;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,6 +29,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.sex = sex;
         this.address = address;
+        this.id = id;
     }
 
     // Getters and setters
@@ -80,6 +82,10 @@ public class User {
         return userType;
     }
 
+    Integer getId() {
+        return id;
+    }
+
     public void setUserType(String userType) {
         this.userType = userType;
     }
@@ -124,8 +130,12 @@ public class User {
         this.address = address;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String toString() {
-        return userType + " " + firstName + " " + lastName + " " + username + " " + password + " " + securityAnswer + " " + role + " " + emailAddress + " " + phoneNumber + " " + sex + " " + address;
+        return userType + " " + firstName + " " + lastName + " " + username + " " + password + " " + securityAnswer + " " + role + " " + emailAddress + " " + phoneNumber + " " + sex + " " + address + " " + id;
     }
 
 
